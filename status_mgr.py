@@ -1709,7 +1709,7 @@ def casper_block_info():
     minutes = int(number_seconds/60)
     seconds = int(number_seconds%60)
     milliseconds = int(float(number_seconds - int(number_seconds)) * 1000)
-    round_string = 'Elapsed {:01d}m {:02d}s {:03d}ms'.format(minutes, seconds, milliseconds)
+    round_string = '{:01d}m {:02d}s {:03d}ms'.format(minutes, seconds, milliseconds)
     string_start_x = ((bar_length-len(round_string))/2) + 34
     
     if  round_percent > 99:
@@ -1728,7 +1728,7 @@ def casper_block_info():
     #mgr     block_info.addstr(each_char, curses.color_pair(7 if string_start_x+char_index < 34 + num_blocks else 3))
     #mgr     char_index += 1
     dataJson['casper_block_info']['Elapsed']=round_string
-
+    dataJson['casper_block_info']['Round Percentage']=round_percent
     index += 1
     #mgr block_info.addstr(index, 2, 'Next Upgrade : ', curses.color_pair(1))
     #mgr block_info.addstr('{}'.format(next_upgrade), curses.color_pair(4 if next_upgrade == None else 5))
