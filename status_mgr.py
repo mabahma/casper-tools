@@ -226,7 +226,7 @@ def system_cpu():
 def casper_transfers():
     global transfers_view
     dataJson['casper_transfers'] = []
-    max_display = 37
+    max_display = 25
 
     local_events = transfer_dict    # make a copy in case our thread tries to stomp
     length = len(transfer_dict.keys())
@@ -285,6 +285,7 @@ def casper_deploys():
     dataJson['casper_deploys'] = []
     #mgr box_height, box_width = peers.getmaxyx()
     #mgr starty = 34+box_height
+    max_display = 25
 
     #mgr max_display = main_height - starty - 3
 
@@ -294,6 +295,8 @@ def casper_deploys():
 
     if len(deploy_dict.keys()) and length < 1:
         length = 1
+    if length >= max_display:
+        length = max_display
 
     #mgr box_height, box_width = peers.getmaxyx()
     #mgr deploy_view = curses.newwin(2 + (1 if length < 1 else length), 214, 34+box_height, 0)
@@ -425,8 +428,7 @@ def casper_deploys():
                     else:
                         mgr='no empty block'
                         #mgr deploy_view.addstr(' / paid: {} {}'.format('{:,.2f}'.format(paid_cost / 1000000000)[:4],error_message[:31]), curses.color_pair(base_color))
-
-            dataJson['casper_deploys'].append(deployment)
+                dataJson['casper_deploys'].append(deployment)
             index += 1
 
 
