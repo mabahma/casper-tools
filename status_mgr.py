@@ -269,7 +269,7 @@ def casper_transfers():
                     transfer_string = '{:,} mote'.format(amount)
 
                 #mgr transfers_view.addstr(transfer_string.rjust(20, ' '), curses.color_pair(5))
-                dataJson['casper_transfers'].append({'block' : '{}'.format(str(transfer[0]).rjust(8, ' ')), "From uref" : '{}..{}'.format(source[:4],source[-4:]), "To uref" : '{}..{}'.format(target[:4],target[-4:]), "Amount" : '{}'.format(transfer_string), "timestamp" : transfer[4] })
+                dataJson['casper_transfers'].append({'block' : '{}'.format(str(transfer[0]).rjust(8, ' ')), "From uref" : '{}..{}'.format(source[:4],source[-4:]), "To uref" : '{}..{}'.format(target[:4],target[-4:]), "Amount" : '{}'.format(transfer_string) })
 
             else:
                 items_2_remove.append(key)
@@ -1881,7 +1881,7 @@ def casper_public_key():
                 amount = transfer['amount']
                 source = transfer['source'].strip("\"")
                 target = transfer['target'].strip("\"")
-                transfer_dict['{}-{}-{}-{}'.format(currentBlock,block_hash,source,target)] = [currentBlock,amount,source,target,header_info['timestamp'] ]
+                transfer_dict['{}-{}-{}-{}'.format(currentBlock,block_hash,source,target)] = [currentBlock,amount,source,target,header_info['timestamp']]
 
         global purse_uref   # we only need to get this ref the first time
         if purse_uref == 0:
