@@ -2035,7 +2035,8 @@ def casper_validator():
 
     #mgr if current_weight:
         #mgr validator.addstr(4, 42, '<- {:.2%} yearly'.format((reward/current_weight)*12*365, 's' if len(our_rewards)>1 else ''), curses.color_pair(1))
-    dataJson['casper_validator']['Last Reward']='{} <- {:.2%} yearly '.format(this_str.rjust(longest_len, ' '),(reward/current_weight)*12*365, 's' if len(our_rewards)>1 else '')
+    if current_weight > 0 :
+        dataJson['casper_validator']['Last Reward']='{} <- {:.2%} yearly '.format(this_str.rjust(longest_len, ' '),(reward/current_weight)*12*365, 's' if len(our_rewards)>1 else '')
     #mgr validator.addstr(5, 2, 'Avg Reward   : ', curses.color_pair(1))
     reward = 0
     if len(our_rewards):
