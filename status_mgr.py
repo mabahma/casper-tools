@@ -269,7 +269,7 @@ def casper_transfers():
                     transfer_string = '{:,} mote'.format(amount)
 
                 #mgr transfers_view.addstr(transfer_string.rjust(20, ' '), curses.color_pair(5))
-                dataJson['casper_transfers'].append({'block' : '{}'.format(str(transfer[0]).rjust(8, ' ')), "From uref" : '{}..{}'.format(source[:4],source[-4:]), "To uref" : '{}..{}'.format(target[:4],target[-4:]), "Amount" : '{}'.format(transfer_string) })
+                dataJson['casper_transfers'].append({'block' : '{}'.format(str(transfer[0]).rjust(8, ' ')), "From uref" : '{}..{}'.format(source[:4],source[-4:]), "To uref" : '{}..{}'.format(target[:4],target[-4:]), "Amount" : '{}'.format(transfer_string), "timestamp" : transfer[4] })
 
             else:
                 items_2_remove.append(key)
@@ -323,6 +323,7 @@ def casper_deploys():
                 error_message = deploy[6]
                 paid_cost = int(deploy[7])
                 actual_cost = int(deploy[8])
+                timestamp = deploy[9]
 
                 highlight_color = 2 if result == 'Failure' else 5
                 base_color = 2 if result == 'Failure' else 4
@@ -333,8 +334,10 @@ def casper_deploys():
                 string = deploy_type
                 if len(deploy_type) > 11: 
                     string = '{}..{}'.format(deploy_type[:6], deploy_type[-6:])
+                deployment['timestamp'] = timestamp
                 #mgr deploy_view.addstr('{}'.format(string.rjust(14,' ')[:14]), curses.color_pair(highlight_color))
                 deployment['deploy_type']='{}'.format(string)
+                
                 if name:
                     #mgr deploy_view.addstr(' / ', curses.color_pair(4))
                     #mgr deploy_view.addstr('{}: '.format('name'.rjust(12,' ')), curses.color_pair(base_color))
@@ -977,6 +980,7 @@ def ProcessDeploy(deploys, height):
 
                     paid_cost = 0
                     args = payment['ModuleBytes']['args']
+                    
                     if args:
                         for arg in args:
                             if arg[0] == 'amount':
@@ -988,7 +992,7 @@ def ProcessDeploy(deploys, height):
                         for arg in args:
                             params[arg[0]] = arg[1]['parsed']
 
-                        deploy_dict['{}-{}'.format(str(height).rjust(8,' '),deploy)] = [height,key,params,name,entry,result,error_message,paid_cost,actual_cost]
+                        deploy_dict['{}-{}'.format(str(height).rjust(8,' '),deploy)] = [height,key,params,name,entry,result,error_message,paid_cost,actual_cost,d['result']['deploy']['header']['timestamp']]
     
 
 class EventTask:
@@ -1873,10 +1877,11 @@ def casper_public_key():
             block_hash = transfer['result']['block_hash'].strip("\"")
             root_hash = block_info['result']['block']['header']['state_root_hash']
             for transfer in transfers:
+                print(transfer)
                 amount = transfer['amount']
                 source = transfer['source'].strip("\"")
                 target = transfer['target'].strip("\"")
-                transfer_dict['{}-{}-{}-{}'.format(currentBlock,block_hash,source,target)] = [currentBlock,amount,source,target]
+                transfer_dict['{}-{}-{}-{}'.format(currentBlock,block_hash,source,target)] = [currentBlock,amount,source,target,header_info['timestamp'] ]
 
         global purse_uref   # we only need to get this ref the first time
         if purse_uref == 0:
