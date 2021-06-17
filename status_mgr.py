@@ -629,6 +629,7 @@ def getEraInfo(block, currentEra, update_globals):
         my_del_reward = 0
         
         for info in eraInfo:
+            #print(info)
             if 'Delegator' in info:
                 amount = int(info['Delegator']['amount'])
                 if currentEra in era_rewards_dict:
@@ -963,6 +964,7 @@ def ProcessDeploy(deploys, height):
             result = None
             error_message = None
             actual_cost = 0
+            #print(d)
             for r in results:
                 result = r
                 actual_cost = results[r]['cost']
@@ -1866,7 +1868,7 @@ def casper_public_key():
         era_block_start[current_era_global] = currentBlock
         current_proposer = body_info['proposer'].strip("\"")
 
-
+        #print(block_info)
         deploys = body_info['deploy_hashes']
         ProcessDeploy(deploys, currentBlock)
 
@@ -1877,7 +1879,6 @@ def casper_public_key():
             block_hash = transfer['result']['block_hash'].strip("\"")
             root_hash = block_info['result']['block']['header']['state_root_hash']
             for transfer in transfers:
-                print(transfer)
                 amount = transfer['amount']
                 source = transfer['source'].strip("\"")
                 target = transfer['target'].strip("\"")
@@ -2207,7 +2208,7 @@ def draw_menu():
         #mgr     k = casper.getch()
 
 def main():
-    os.environ['NCURSES_NO_UTF8_ACS'] = '1'
+    #os.environ['NCURSES_NO_UTF8_ACS'] = '1'
 
     
     global config
