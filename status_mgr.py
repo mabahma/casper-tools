@@ -2087,6 +2087,8 @@ def draw_menu():
     k = 0
     cursor_x = 0
     cursor_y = 0
+    running = 0
+    killAfterTime=120
 
     # Clear and refresh the screen for a blank canvas
     #mgr casper.clear()
@@ -2203,7 +2205,10 @@ def draw_menu():
         except KeyboardInterrupt:
             event_ptr.terminate()
             break;
-
+        running += 1
+        #print("{} - {}".format(running, killAfterTime))
+        if (running > killAfterTime):
+            sys.exit()
         #mgr if sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
         #mgr     k = casper.getch()
 
@@ -2337,7 +2342,7 @@ def main():
     scan_validators_thread_ptr.start()
     #server = HTTPServer(('', PORT), MyServer)
     #server.serve_forever()
-    WebThread().start()
+    #WebThread().start()
     draw_menu()
 
     #mgr curses.wrapper(draw_menu)
